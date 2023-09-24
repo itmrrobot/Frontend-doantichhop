@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import DefaultLayout from "./components/Layout/DefaultLayout";
+import LoginRegisterLayout from "./components/Layout/LoginRegisterLayout";
+import {publicLoginRegisterRoutes, publicRoutes} from "./routes/index";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {publicLoginRegisterRoutes.map((route,index) => {
+            const Layout = LoginRegisterLayout;
+            const Page = route.component;
+            return <Route key={index} path={route.path} element={<Layout>
+              <Page/>
+            </Layout>}/>
+          })}
+          {publicRoutes.map((route,index) => {
+            const Layout = DefaultLayout;
+            const Page = route.component;
+            return <Route key={index} path={route.path} element={<Layout>
+              <Page/>
+            </Layout>}/>
+          })}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
